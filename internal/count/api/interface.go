@@ -1,6 +1,6 @@
 package api
 
 type Usecase interface {
-	FetchHelloMessage() (string, error)
-	SetHelloMessage(msg string) error
+	HandleGetCount() (int, error)
+	HandlePostCount(count int) error
 }

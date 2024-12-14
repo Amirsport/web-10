@@ -4,10 +4,10 @@ import (
 	"flag"
 	"log"
 
-	"github.com/ValeryBMSTU/web-10/internal/hello/api"
-	"github.com/ValeryBMSTU/web-10/internal/hello/config"
-	"github.com/ValeryBMSTU/web-10/internal/hello/provider"
-	"github.com/ValeryBMSTU/web-10/internal/hello/usecase"
+	"github.com/Amirsport/web-10/internal/hello/api"
+	"github.com/Amirsport/web-10/internal/hello/config"
+	"github.com/Amirsport/web-10/internal/hello/provider"
+	"github.com/Amirsport/web-10/internal/hello/usecase"
 	_ "github.com/lib/pq"
 )
 

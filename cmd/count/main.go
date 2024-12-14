@@ -3,10 +3,11 @@ package main
 import (
 	"flag"
 	"log"
-	"web-10/internal/count/api"
-	"web-10/internal/count/config"
-	"web-10/internal/count/provider"
-	"web-10/internal/count/usecase"
+
+	"github.com/Amirsport/web-10/internal/count/api"
+	"github.com/Amirsport/web-10/internal/count/config"
+	"github.com/Amirsport/web-10/internal/count/provider"
+	"github.com/Amirsport/web-10/internal/count/usecase"
 
 	_ "github.com/lib/pq"
 )
