@@ -1,7 +1,6 @@
 package usecase
 
 type Provider interface {
-	SelectRandomHello() (string, error)
-	CheckHelloExitByMsg(string) (bool, error)
-	InsertHello(string) error
+	GetCounter() (int, error)
+	UpdateCounter(count int) error
 }
