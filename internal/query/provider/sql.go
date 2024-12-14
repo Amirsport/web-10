@@ -3,31 +3,22 @@ package provider
 import (
 	"database/sql"
 	"errors"
-	"fmt"
 	"net/http"
 )
 
 func (p *Provider) SelectQuery(w http.ResponseWriter, r *http.Request) (string, error) {
 	name := r.URL.Query().Get("name")
-	if name == "" {
-		http.Error(w, "Parameter 'name' is required", http.StatusBadRequest)
-		return
-	}
-
-	var exists bool
-	err := db.QueryRow(`SELECT EXISTS(SELECT 1 FROM public.users WHERE name = $1)`, name).Scan(&exists)
+	err := p.conn.QueryRow("SELECT message FROM hello ORDER BY RANDOM() LIMIT 1").Scan(&name)
 	if err != nil {
-		http.Error(w, "Database error", http.StatusInternalServerError)
-		return
+		if errors.Is(err, sql.ErrNoRows) {
+			return "", nil
+		}
+		return "", err
 	}
 
-	if !exists {
-		http.Error(w, fmt.Sprintf("User '%s' not found", name), http.StatusNotFound)
-		return
-	}
+	name = "Hell0" + name
+	return name, nil
 
-	response := fmt.Sprintf("Hello, %s!", name)
-	w.Write([]byte(response))
 }
 
 func (p *Provider) CheckQueryExitByMsg(msg string) (bool, error) {
