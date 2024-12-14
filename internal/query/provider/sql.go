@@ -33,7 +33,7 @@ func (p *Provider) CheckQueryExitByMsg(msg string) (bool, error) {
 }
 
 func (p *Provider) InsertQuery(msg string) error {
-	_, err := p.conn.Exec("INSERT INTO users (naem) VALUES ($1)", msg)
+	_, err := p.conn.Exec("INSERT INTO users (name) VALUES ($1)", msg)
 	if err != nil {
 		return err
 	}

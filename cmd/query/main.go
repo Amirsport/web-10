@@ -3,10 +3,11 @@ package main
 import (
 	"flag"
 	"log"
-	"web-10/internal/query/api"
-	"web-10/internal/query/config"
-	"web-10/internal/query/provider"
-	"web-10/internal/query/usecase"
+
+	"github.com/Amirsport/web-10/internal/query/api"
+	"github.com/Amirsport/web-10/internal/query/config"
+	"github.com/Amirsport/web-10/internal/query/provider"
+	"github.com/Amirsport/web-10/internal/query/usecase"
 
 	_ "github.com/lib/pq"
 )
