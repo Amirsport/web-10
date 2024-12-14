@@ -3,20 +3,31 @@ package provider
 import (
 	"database/sql"
 	"errors"
+	"fmt"
+	"net/http"
 )
 
-func (p *Provider) SelectQuery() (string, error) {
-	var msg string
-
-	err := p.conn.QueryRow("SELECT name FROM users WHERE name = $1 LIMIT 1").Scan(&msg)
-	if err != nil {
-		if errors.Is(err, sql.ErrNoRows) {
-			return "", nil
-		}
-		return "", err
+func (p *Provider) SelectQuery(w http.ResponseWriter, r *http.Request) (string, error) {
+	name := r.URL.Query().Get("name")
+	if name == "" {
+		http.Error(w, "Parameter 'name' is required", http.StatusBadRequest)
+		return
 	}
 
-	return msg, nil
+	var exists bool
+	err := db.QueryRow(`SELECT EXISTS(SELECT 1 FROM public.users WHERE name = $1)`, name).Scan(&exists)
+	if err != nil {
+		http.Error(w, "Database error", http.StatusInternalServerError)
+		return
+	}
+
+	if !exists {
+		http.Error(w, fmt.Sprintf("User '%s' not found", name), http.StatusNotFound)
+		return
+	}
+
+	response := fmt.Sprintf("Hello, %s!", name)
+	w.Write([]byte(response))
 }
 
 func (p *Provider) CheckQueryExitByMsg(msg string) (bool, error) {

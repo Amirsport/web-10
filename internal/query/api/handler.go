@@ -10,19 +10,18 @@ import (
 )
 
 // GetHello возвращает случайное приветствие пользователю
-func (srv *Server) GetQuery(e echo.Context) error {
-	msg, err := srv.uc.FetchQuery()
-	if err != nil {
-		return e.String(http.StatusInternalServerError, err.Error())
+func (srv *Server) GetQuery(c echo.Context) error {
+	name := c.QueryParam("name")
+	if name == "" {
+		return c.JSON(http.StatusBadRequest, map[string]string{"error": "Name parameter is required"})
 	}
-
-	return e.JSON(http.StatusOK, msg)
+	return c.String(http.StatusOK, "Hello, "+name+"!")
 }
 
 // PostHello Помещает новый вариант приветствия в БД
 func (srv *Server) PostQuery(e echo.Context) error {
 	input := struct {
-		Msg *string `json:"msg"`
+		Msg *string `json:"name"`
 	}{}
 
 	err := e.Bind(&input)
@@ -31,7 +30,7 @@ func (srv *Server) PostQuery(e echo.Context) error {
 	}
 
 	if input.Msg == nil {
-		return e.String(http.StatusBadRequest, "msg is empty")
+		return e.String(http.StatusBadRequest, "name is empty")
 	}
 
 	if len([]rune(*input.Msg)) > srv.maxSize {
