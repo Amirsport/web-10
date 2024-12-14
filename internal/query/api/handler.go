@@ -4,7 +4,7 @@ import (
 	"errors"
 	"net/http"
 
-	"github.com/ValeryBMSTU/web-10/pkg/vars"
+	"github.com/Amirsport/web-10/pkg/vars"
 
 	"github.com/labstack/echo/v4"
 )
